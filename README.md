@@ -25,7 +25,7 @@
    
    ![F_1](https://user-images.githubusercontent.com/104720406/173180200-a98183b1-1996-4d26-8bc9-68b252ff76d7.png)
    
-   __{Tests}__
+   __{Tests}__  Тесты берем из "body - pretty"(т.к. работаем без команд парсинга)
    
    ![F_1 2](https://user-images.githubusercontent.com/104720406/173180411-eb435a0d-8655-4ce6-8a25-d181ac517471.png)
 

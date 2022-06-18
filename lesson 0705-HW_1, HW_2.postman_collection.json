@@ -1,0 +1,920 @@
+{
+	"info": {
+		"_postman_id": "1a8f3a08-078a-4a1f-9a9b-2b7a7007fd40",
+		"name": "lesson 0705/HW_1, HW_2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20723224"
+	},
+	"item": [
+		{
+			"name": "1 Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/get_method?name=Vadim&age=32&salary=2000",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"get_method"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Vadim"
+						},
+						{
+							"key": "age",
+							"value": "32"
+						},
+						{
+							"key": "salary",
+							"value": "2000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info_2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();  //Спарсить response body в json\r",
+							"var req = request.Data              // Спарсить request\r",
+							"\r",
+							"\r",
+							"// Проверить, что json response имеет параметр qa_salary_after_6_months\r",
+							"pm.test(\"json response имеет параметр qa_salary_after_6_months\", () => {\r",
+							"pm.expect(jsonData).to.have.property(\"qa_salary_after_6_months\")\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Проверить, что параметр start_qa_salary равен salary из request (salary забрать из request.\r",
+							"pm.test(\"start_qa_salary равен salary из request\", function () {\r",
+							"    pm.expect(request.start_qa_salary).to.eql(jsonData.salary);\r",
+							"});\r",
+							"console.log(+request.data.salary)\r",
+							"console.log(jsonData.start_qa_salary)\r",
+							"\r",
+							"// Проверить, что параметр qa_salary_after_3.5_years равен salary*3.8 из request (salary забрать из request.\r",
+							"pm.test(\"параметр qa_salary_after_3.5_years равен salary из request\", function () {\r",
+							"pm.expect(+request['qa_salary_after_3.5_years']).to.eql(jsonData.salary*3.8);\r",
+							"});\r",
+							"\r",
+							"// Написать цикл который выведет в консоль по порядку элементы списка из параметра person\r",
+							"for (let i in jsonData.person){\r",
+							"console.log(\"Property\", i, \"property value:\", jsonData.person[i]);\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "age",
+							"value": "{{age}}",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "{{name}}",
+							"type": "text"
+						},
+						{
+							"key": "auth_token",
+							"value": "{{token}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_1 0805/1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/get_method?name=john&age=30",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"get_method"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "john"
+						},
+						{
+							"key": "age",
+							"value": "30"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_2 0805/user_info_3",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {             \r",
+							"pm.response.to.have.status(200);        \r",
+							"});\r",
+							"\r",
+							"// Проверить, что name в ответе равно name s request\r",
+							"pm.test(\"Your test name\", function () {                 \r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(\"johnn\");\r",
+							"});\r",
+							"\r",
+							"// Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"let Your_test_name = \"johnn\"\r",
+							"pm.test(\"2Your_test_name\", function () {               \r",
+							" pm.expect(Your_test_name).to.deep.equal(\"johnn\")\r",
+							"});\r",
+							"\r",
+							"// Проверить, что age в ответе равно age s request\r",
+							"pm.test(\"Your test age\", function () {                 \r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.age).to.eql(\"30\");\r",
+							"});\r",
+							"\r",
+							"// Проверить, что age в ответе равно age s request (age забрать из request\r",
+							"// let Your_test_age = 30\r",
+							"var req = request.data \r",
+							"var jsonData = pm.response.json();\r",
+							"pm.test(\"2Your_test_age\", function () {                    \r",
+							"pm.expect(jsonData.age).to.eql(req.age);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Проверить, что salary в ответе равно salary s request(salary вбить руками)\r",
+							"pm.test(\"Your test salary\", function () {                \r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.salary).to.eql(1000);\r",
+							"});\r",
+							"\r",
+							"var req = request.data  // Спарсить request\r",
+							"// console.log(req)\r",
+							"\r",
+							"\r",
+							"// Проверить, что age в ответе равно age s request (age забрать из request.)\r",
+							"pm.test(\"проверить_что_name_в_ответе_равно_name_request\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.eql(req.name);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"// Проверить что u_salary_1_5_year в ответе равно salary*4 (salary забрать из request\r",
+							"pm.test(\"12_пров_u_salary_1_5_year_в_ответе_равно_salary*4\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    let ss = jsonData.salary * 4\r",
+							"    pm.expect(jsonData.u_salary_1_5_year).to.eql(jsonData.ss);\r",
+							"});\r",
+							"\r",
+							"// let jsonData = pm.response.json();   //12\r",
+							"// let salary_12 = 4000\r",
+							"// let ss = jsonData.salary * 4\r",
+							"\r",
+							"// console.log(salary_12)\r",
+							"// console.log(ss)\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "johnn",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_3",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user_info_3",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {             //2\r",
+							"    pm.response.to.have.status(200);        \r",
+							"});\r",
+							"\r",
+							"var req = request.data\r",
+							"var req_salary = req.salary * 4  \r",
+							"let jsonData = pm.response.json();\r",
+							"\r",
+							"console.log(\"req_salary = \", req_salary)\r",
+							"console.log(jsonData.u_salary_1_5_year)\r",
+							"let e = jsonData.u_salary_1_5_year\r",
+							"\r",
+							"pm.test(\"Your test name\", function () {\r",
+							"\r",
+							"    pm.expect(jsonData.req_salary).to.eql(e);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "johnn",
+							"type": "text"
+						},
+						{
+							"key": "age",
+							"value": "30",
+							"type": "text"
+						},
+						{
+							"key": "salary",
+							"value": "1000",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_3",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_3"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "str",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "int",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "int",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_3 0805/3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_1?name=John&age=30&weight=75",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_1"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "John"
+						},
+						{
+							"key": "age",
+							"value": "30"
+						},
+						{
+							"key": "weight",
+							"value": "75"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_4 object_info_2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_2?name=john&age=30&salary=2000",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_2"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "john"
+						},
+						{
+							"key": "age",
+							"value": "30"
+						},
+						{
+							"key": "salary",
+							"value": "2000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_5 object_info_3",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// Статус код 200\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();  // Спарсить response body в json\r",
+							"var req = request.data              // Спарсить request\r",
+							"console.log(jsonData)\r",
+							"\r",
+							"// Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test(\"name в ответе равно name s request \", function () {\r",
+							"// var jsonData = pm.response.json();\r",
+							"pm.expect(+jsonData.name).to.eql(+req.name);\r",
+							"});\r",
+							"\r",
+							"console.log(jsonData.family)  //вывести в консоль параметр family из response\r",
+							"\r",
+							"// Проверить, что у параметра dog есть параметры name\r",
+							"pm.test('Проверить_что_у_параметра_dog_есть_параметры_name', function() {\r",
+							"pm.expect(jsonData.family.pets.dog).to.have.property('name');\r",
+							"});\r",
+							"\r",
+							"// Проверить, что параметр name имеет значение Luky\r",
+							"pm.test(\"name_have_value_luky\", function () {\r",
+							"pm.expect(jsonData.family.pets.dog.name).to.eql(\"Luky\");\r",
+							"});\r",
+							"\r",
+							"// Проверить, что параметр age имеет значение 4\r",
+							"pm.test(\"value 4\", function () {\r",
+							"pm.expect(jsonData.family.pets.dog.age).to.eql(4);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_3?name=john&age=30&salary=1000",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_3"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "john"
+						},
+						{
+							"key": "age",
+							"value": "30"
+						},
+						{
+							"key": "salary",
+							"value": "1000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_6 object_info_4",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var jsonData = pm.response.json();          //Спарсить response body в json.\r",
+							"// var req = request.data\r",
+							"let req = pm.request.url.query.toObject();  // Спарсить request\r",
+							"console.log(jsonData)\r",
+							"\r",
+							"//Проверить, что name в ответе равно name s request (name забрать из request.)\r",
+							"pm.test(\"name в ответе равно name s request (name забрать из request\", function () {   \r",
+							"pm.expect(jsonData.name).to.eql(\"john\");\r",
+							"});\r",
+							"\r",
+							"console.log(jsonData.salary) //Вывести в консоль параметр salary из response\r",
+							"console.log(req.salary) // Вывести в консоль параметр salary из request\r",
+							"\r",
+							"// Вывести в консоль 0-й элемент параметра salary из response\r",
+							"let salary_1 = jsonData.salary[0] \r",
+							"console.log(salary_1)\r",
+							"\r",
+							"// Проверить, что 0-й элемент параметра salary равен salary из request (salary забрать из request.)\r",
+							"pm.test(\"0-й элемент параметра salary равен salary из request\", function () {  \r",
+							"pm.expect(salary_1).to.eql(+req.salary);\r",
+							"});\r",
+							"\r",
+							"// Проверить, что 2-й элемент параметра salary равен salary*3 из request (salary забрать из request.)\r",
+							"let salary_3 = jsonData.salary[2]   \r",
+							"pm.test(\"3 test\", function () {\r",
+							"pm.expect(+salary_3).to.eql(req.salary *3);\r",
+							"});\r",
+							"\r",
+							"// Написать цикл который выведет в консоль по порядку элементы списка из параметра salary\r",
+							"for (i = 0; i < jsonData.salary.length; i++){  \r",
+							"console.log(\"salary_cycle\", jsonData.salary[i]);\r",
+							"}\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/object_info_4?name={{name}}&age={{age}}&salary={{salary}}",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"object_info_4"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{name}}"
+						},
+						{
+							"key": "age",
+							"value": "{{age}}"
+						},
+						{
+							"key": "salary",
+							"value": "{{salary}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_7",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info_2",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info_2"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "str",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "int",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "int",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_7 token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// присваеваем токен окружению\r",
+							"let jsonData = pm.response.json();\r",
+							"let user_token = jsonData.token\r",
+							"pm.environment.set(\"token\", user_token);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "login",
+							"value": "Alex",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "4",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/login",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "str",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "int",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "int",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_8 home work",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let jsonData = pm.response.json();\r",
+							"        var req = JSON.parse(request.data)\r",
+							"        var req_salary = req.salary                            \r",
+							"                                                                   //  ИЗ ТЕЛА ЗАПРОСА\r",
+							"console.log(\"req_salary = \", req_salary)\r",
+							"\r",
+							"pm.test(\"salary\", function () {\r",
+							"                                                                        //  ИЗ ТЕЛА ЗАПРОСА + ИЗ ТЕЛА ОТВЕТА\r",
+							"pm.expect(req_salary).to.eql(jsonData.person.u_name[1]);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"let salary_check_12 = jsonData.person.u_name[1] * 2.9   \r",
+							"                                                                   // ПОДТЯГИВАЕМ ИЗ ТЕЛА ОТВЕТА\r",
+							"let salary_12 = jsonData.qa_salary_after_12_months\r",
+							"\r",
+							"console.log(salary_check_12)\r",
+							"console.log(salary_12)\r",
+							" \r",
+							"pm.test(\"salary_check_12\", function () {\r",
+							"pm.expect(salary_12).to.eql(salary_check_12);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Alex\",\r\n    \"age\": 32,\r\n    \"salary\": 2000,\r\n    \"auth_token\": \"{{token}}\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}:{{port}}/user_info",
+					"host": [
+						"{{url}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user_info"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "str",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "int",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "int",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EP_9 token user_info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"    let jsonData = pm.response.json();\r",
+							"let u_salary_1_5_year = jsonData.u_salary_1_5_year * 4\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"u_salary_1_5_year\", function () {\r",
+							"    pm.expect(u_salary_1_5_year).to.eql(u_salary_1_5_year);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Alex\",\r\n    \"age\": 32,\r\n    \"salary\": 2000,\r\n    \"auth_token\": \"/s34lfgbj/Alex/jjd909/98765kjkWpqc40754207025evny\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://162.55.220.72:5005/user_info",
+					"protocol": "http",
+					"host": [
+						"162",
+						"55",
+						"220",
+						"72"
+					],
+					"port": "5005",
+					"path": [
+						"user_info"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "str",
+							"disabled": true
+						},
+						{
+							"key": "age",
+							"value": "int",
+							"disabled": true
+						},
+						{
+							"key": "salary",
+							"value": "int",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
